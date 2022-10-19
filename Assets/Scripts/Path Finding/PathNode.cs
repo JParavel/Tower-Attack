@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class PathNode
 {
-    private Cell cell;
+    public Entity entity;
     private int gCost;
     private int hCost;
     private int fCost;
-    private PathNode lastNode;
+    public Vector2 position { get; private set; }
+
+    public PathNode(Vector2 position)
+    {
+        this.position = position;
+    }
+
+    public bool HasEntity()
+    {
+        return entity != null;
+    }
+
 }

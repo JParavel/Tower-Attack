@@ -15,6 +15,7 @@ MonoBehaviour:
   summonEntityEvent: {fileID: 11400000, guid: 0912bcc2d87cc7e4089db4aeb770ffe4, type: 2}
   randomizeEvent: {fileID: 11400000, guid: 7826ba2bd852b694e80b5c80f5ce41d2, type: 2}
   maxCost: 10
+  nexusData: {fileID: 11400000, guid: 03170adce047fdf438b738ccdc9f0d09, type: 2}
   towerUnits:
   - {fileID: 11400000, guid: e2f8f1d238b5f5340b14d1f8e8634668, type: 2}
   playerUnits:
