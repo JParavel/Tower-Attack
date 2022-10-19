@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public Entity entityPrefab;
+    [SerializeField] private EntityManager entityManager;
+    [SerializeField] private Entity entityPrefab;
     [SerializeField] private SpriteRenderer boardRenderer;
     [SerializeField] private Vector2 size;
-    [SerializeField] private Vector2 cellSize;
 
     private Cell[,] cells;
 
@@ -46,20 +46,35 @@ public class Board : MonoBehaviour
     {
         RandomizeEvent randomizeEvent = (RandomizeEvent)e;
         ClearSide(randomizeEvent.side);
+        if (randomizeEvent.side == BoardSide.TOP)
+        {
+            Entity nexus = PlaceEntity(entityManager.nexusData, BoardSide.TOP);
+            nexus.SetBaseColor(Color.magenta);
+        }
     }
 
-    public void PlaceEntity(EntityData entityData, BoardSide side)
+    public Entity PlaceEntity(EntityData entityData, BoardSide side)
     {
-        Cell cell;
-        do
-        {
-            cell = GetRandomCell(side);
-        } while (cell.HasEntity());
-
+        Cell cell = GetEmptyCell(side);
         Vector2 position = CellToWorldSpace(cell);
         Entity entity = Instantiate(entityPrefab, position, Quaternion.identity, transform);
         entity.data = entityData;
+
+        Color color = Color.white;
+        switch (side)
+        {
+            case BoardSide.TOP:
+                color = Color.red;
+                break;
+            case BoardSide.BOT:
+                color = Color.blue;
+                break;
+        }
+        entity.SetBaseColor(color);
+
         cell.entity = entity;
+
+        return entity;
     }
 
     private Cell GetRandomCell(BoardSide side)
@@ -74,13 +89,24 @@ public class Board : MonoBehaviour
         return cells[x, y];
     }
 
+    private Cell GetEmptyCell(BoardSide side)
+    {
+        Cell cell;
+        do
+        {
+            cell = GetRandomCell(side);
+        } while (cell.HasEntity());
+        return cell;
+    }
+
     private Vector2 CellToWorldSpace(Cell cell)
     {
-        return cell.position - size / 2f + cellSize / 2f + (Vector2)transform.position;
+        return cell.position - size / 2f + Vector2.one / 2f + (Vector2)transform.position;
     }
 
     public void ClearSide(BoardSide side)
     {
+
         foreach (Cell cell in cells)
         {
             if (!cell.HasEntity()) continue;

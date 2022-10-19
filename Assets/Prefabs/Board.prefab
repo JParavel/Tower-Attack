@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8e204d4f140fe344aa8653915f3f0f3d, type: 3}
-  m_Color: {r: 0.6463257, g: 1, b: 0.5235849, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3415998665801636963}
   - component: {fileID: 6970653561702764355}
   - component: {fileID: 1407489822}
+  - component: {fileID: 164995852134314553}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -130,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2f3822352871e44b063345931bdd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityManager: {fileID: 11400000, guid: cb4d1682b1a7ca94ea87f6d96b6f7e7e, type: 2}
   entityPrefab: {fileID: 5875468283172503974, guid: 730b4af4d5888ee4d86b93ac4d8e82a9, type: 3}
   boardRenderer: {fileID: 8323570461920009488}
   size: {x: 7, y: 12}
@@ -153,6 +155,34 @@ MonoBehaviour:
       - m_Target: {fileID: 6970653561702764355}
         m_TargetAssemblyTypeName: Board, Assembly-CSharp
         m_MethodName: OnSummonEntity
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &164995852134314553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4272220773786080355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7f719bb725470f42a74630648287208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 7826ba2bd852b694e80b5c80f5ce41d2, type: 2}
+  _onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6970653561702764355}
+        m_TargetAssemblyTypeName: Board, Assembly-CSharp
+        m_MethodName: OnRandomizeEvent
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

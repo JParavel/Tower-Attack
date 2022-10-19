@@ -6,8 +6,13 @@ public class UIManager : MonoBehaviour
 {
     public EntityManager entityManager;
 
-    public void OnUnitsButtonClick(){
-        entityManager.RandomizeUnits(entityManager.towerUnits, BoardSide.TOP);
+    public void UnitButtonClick()
+    {
         entityManager.RandomizeUnits(entityManager.playerUnits, BoardSide.BOT);
+    }
+
+    public void TowerButtonClick()
+    {
+        entityManager.RandomizeUnits(entityManager.towerUnits, BoardSide.TOP);
     }
 }

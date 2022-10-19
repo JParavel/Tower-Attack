@@ -16,6 +16,7 @@ public class Entity : MonoBehaviour
     }
 
     [SerializeField] private SpriteRenderer _iconRenderer;
+    [SerializeField] private SpriteRenderer _baseRenderer;
     private int _health;
 
     public void Damage(int damage)
@@ -38,5 +39,10 @@ public class Entity : MonoBehaviour
     {
         _health = _data.health;
         _iconRenderer.sprite = _data.model;
+    }
+
+    public void SetBaseColor(Color color)
+    {
+        _baseRenderer.color = color;
     }
 }

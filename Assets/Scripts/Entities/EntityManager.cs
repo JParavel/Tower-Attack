@@ -8,6 +8,8 @@ public class EntityManager : ScriptableObject
     public SummonEntityEvent summonEntityEvent;
     public RandomizeEvent randomizeEvent;
     public int maxCost;
+
+    public EntityData nexusData;
     public List<EntityData> towerUnits = new List<EntityData>();
     public List<EntityData> playerUnits = new List<EntityData>();
 
