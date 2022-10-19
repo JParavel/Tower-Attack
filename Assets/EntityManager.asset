@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: EntityManager
   m_EditorClassIdentifier: 
   summonEntityEvent: {fileID: 11400000, guid: 0912bcc2d87cc7e4089db4aeb770ffe4, type: 2}
+  randomizeEvent: {fileID: 11400000, guid: 7826ba2bd852b694e80b5c80f5ce41d2, type: 2}
   maxCost: 10
-  towerUnits: []
+  towerUnits:
+  - {fileID: 11400000, guid: e2f8f1d238b5f5340b14d1f8e8634668, type: 2}
   playerUnits:
   - {fileID: 11400000, guid: 6cc12e12da5df664eba459c3dde1bb49, type: 2}
+  - {fileID: 11400000, guid: 679a475fff615b742a679467defcfeb6, type: 2}
