@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    //Entities
     [SerializeField] private EntityManager entityManager;
     [SerializeField] private Entity entityPrefab;
-    [SerializeField] private SpriteRenderer boardRenderer;
-    [SerializeField] private Vector2 size;
+    private List<Entity> topEntities;
+    private List<Entity> botEntities;
 
-    private Cell[,] cells;
+    //Board properties
+    [SerializeField] private SpriteRenderer boardRenderer;
+    [SerializeField] private Vector2 _size;
+    public Vector2 size { get { return _size; } }
+    private PathGrid pathGrid;
 
     private void Start()
     {
@@ -19,19 +24,13 @@ public class Board : MonoBehaviour
     public void LoadBoard()
     {
         GenerateBoard();
-        cells = new Cell[(int)size.x, (int)size.y];
-
-        for (int y = 0; y < size.y; y++)
-        {
-            for (int x = 0; x < size.x; x++)
-            {
-                cells[x, y] = new Cell(new Vector2(x, y));
-            }
-        }
+        pathGrid = new PathGrid(this);
+        topEntities = new List<Entity>();
+        botEntities = new List<Entity>();
     }
     public void GenerateBoard()
     {
-        boardRenderer.size = size;
+        boardRenderer.size = _size;
     }
 
     public void OnSummonEntity(GameEvent e)
@@ -49,78 +48,47 @@ public class Board : MonoBehaviour
         if (randomizeEvent.side == BoardSide.TOP)
         {
             Entity nexus = PlaceEntity(entityManager.nexusData, BoardSide.TOP);
-            nexus.SetBaseColor(Color.magenta);
         }
     }
 
     public Entity PlaceEntity(EntityData entityData, BoardSide side)
     {
-        Cell cell = GetEmptyCell(side);
-        Vector2 position = CellToWorldSpace(cell);
+
+        PathNode node = pathGrid.GetEmptyNode(side);
+        Vector2 position = pathGrid.GetWorldPosition(node);
+
         Entity entity = Instantiate(entityPrefab, position, Quaternion.identity, transform);
         entity.data = entityData;
 
-        Color color = Color.white;
+        node.entity = entity;
+
         switch (side)
         {
             case BoardSide.TOP:
-                color = Color.red;
+                topEntities.Add(entity);
                 break;
             case BoardSide.BOT:
-                color = Color.blue;
+                botEntities.Add(entity);
                 break;
         }
-        entity.SetBaseColor(color);
-
-        cell.entity = entity;
 
         return entity;
     }
 
-    private Cell GetRandomCell(BoardSide side)
-    {
-        int x = Random.Range(0, (int)size.x);
-        int y = Random.Range(0, (int)size.y / 3);
-
-        if (side == BoardSide.TOP)
-        {
-            y += 2 * (int)size.y / 3;
-        }
-        return cells[x, y];
-    }
-
-    private Cell GetEmptyCell(BoardSide side)
-    {
-        Cell cell;
-        do
-        {
-            cell = GetRandomCell(side);
-        } while (cell.HasEntity());
-        return cell;
-    }
-
-    private Vector2 CellToWorldSpace(Cell cell)
-    {
-        return cell.position - size / 2f + Vector2.one / 2f + (Vector2)transform.position;
-    }
-
     public void ClearSide(BoardSide side)
     {
-
-        foreach (Cell cell in cells)
+        List<Entity> entities = botEntities;
+        if (side == BoardSide.TOP)
         {
-            if (!cell.HasEntity()) continue;
-
-            if (side == BoardSide.TOP && cell.position.y > size.y / 2f)
-            {
-                Destroy(cell.entity.gameObject);
-            }
-            else if (side == BoardSide.BOT && cell.position.y < size.y / 2f)
-            {
-                Destroy(cell.entity.gameObject);
-            }
+            entities = topEntities;
         }
 
+        foreach (Entity entity in entities)
+        {
+            Destroy(entity.gameObject);
+        }
+
+        entities.Clear();
     }
 
 }

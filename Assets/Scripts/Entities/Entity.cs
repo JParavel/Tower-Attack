@@ -39,10 +39,7 @@ public class Entity : MonoBehaviour
     {
         _health = _data.health;
         _iconRenderer.sprite = _data.model;
+        _baseRenderer.color =  _data.baseColor;
     }
 
-    public void SetBaseColor(Color color)
-    {
-        _baseRenderer.color = color;
-    }
 }
